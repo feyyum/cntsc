@@ -1,0 +1,12 @@
+{
+    "endOfLine": "lf",
+    "insertFinalNewline": true,
+    "useTabs": false,
+    "tabWidth": 4,
+    "printWidth": 100,
+    "singleQuote": false,
+    "trailingComma": "all",
+    "bracketSpacing": true,
+    "arrowParens": "always",
+    "proseWrap": "preserve"
+}

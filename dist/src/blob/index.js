@@ -57,6 +57,20 @@ class Blob {
         });
     }
     /**
+     * Retrieves proofs in the given namespaces at the given height by commitment.
+     * @param height - The height at which the proofs exist.
+     * @param namespace - The namespace under which the proof exists.
+     * @param shareCommitment - The commitment of the share.
+     * @returns A Promise resolving to the retrieved commitment proof.
+     */
+    GetCommitmentProof(height, namespace, shareCommitment) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const jsonRequest = Object.assign(Object.assign({}, constants_1.Payload), { method: "blob.GetCommitmentProof", params: [height, namespace, shareCommitment] });
+            // Send the fetch request
+            return yield this.client.request(jsonRequest);
+        });
+    }
+    /**
      * Checks whether a blob's given commitment (Merkle subtree root) is included at given height and under the namespace.
      * @param height - The height at which to check inclusion.
      * @param namespace - The namespace under which to check inclusion.
@@ -74,12 +88,12 @@ class Blob {
     /**
      * Submits Blobs and returns the height in which they were included.
      * @param blobs - The blobs to be submitted.
-     * @param gasPrice - The gas price for the submission.
+     * @param options - The options for submitting the blobs.
      * @returns A Promise resolving to the height in which the blobs were included.
      */
-    Submit(blobs, gasPrice) {
+    Submit(blobs, options) {
         return __awaiter(this, void 0, void 0, function* () {
-            const jsonRequest = Object.assign(Object.assign({}, constants_1.Payload), { method: "blob.Included", params: [blobs, gasPrice] });
+            const jsonRequest = Object.assign(Object.assign({}, constants_1.Payload), { method: "blob.Submit", params: [blobs, options] });
             // Send the fetch request
             return yield this.client.request(jsonRequest);
         });

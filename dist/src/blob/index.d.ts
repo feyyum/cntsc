@@ -28,6 +28,14 @@ export declare class Blob {
      */
     GetProof(height: number, namespace: share.Namespace, commitment: blob.Commitment): Promise<blob.Proof>;
     /**
+     * Retrieves proofs in the given namespaces at the given height by commitment.
+     * @param height - The height at which the proofs exist.
+     * @param namespace - The namespace under which the proof exists.
+     * @param shareCommitment - The commitment of the share.
+     * @returns A Promise resolving to the retrieved commitment proof.
+     */
+    GetCommitmentProof(height: number, namespace: share.Namespace, shareCommitment: string): Promise<blob.CommitmentProof>;
+    /**
      * Checks whether a blob's given commitment (Merkle subtree root) is included at given height and under the namespace.
      * @param height - The height at which to check inclusion.
      * @param namespace - The namespace under which to check inclusion.
@@ -35,13 +43,13 @@ export declare class Blob {
      * @param commitment - The commitment of the blob.
      * @returns A Promise resolving to a boolean indicating inclusion.
      */
-    Included(height: number, namespace: share.Namespace, proof: blob.Proof, commitment: blob.Commitment): Promise<blob.Proof>;
+    Included(height: number, namespace: share.Namespace, proof: blob.Proof, commitment: blob.Commitment): Promise<boolean>;
     /**
      * Submits Blobs and returns the height in which they were included.
      * @param blobs - The blobs to be submitted.
-     * @param gasPrice - The gas price for the submission.
+     * @param options - The options for submitting the blobs.
      * @returns A Promise resolving to the height in which the blobs were included.
      */
-    Submit(blobs: blob.Blob[], gasPrice: blob.GasPrice): Promise<blob.Proof>;
+    Submit(blobs: blob.Blob[], options: blob.SubmitOptions): Promise<number>;
 }
 //# sourceMappingURL=index.d.ts.map

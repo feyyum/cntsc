@@ -20,7 +20,7 @@ export class Blob {
     async Get(
         height: number,
         namespace: share.Namespace,
-        commitment: blob.Commitment
+        commitment: blob.Commitment,
     ): Promise<blob.Blob> {
         const jsonRequest: any = {
             ...Payload,
@@ -38,10 +38,7 @@ export class Blob {
      * @param namespaces - The namespaces under which the blobs exist.
      * @returns A Promise resolving to an array of blobs.
      */
-    async GetAll(
-        height: number,
-        namespace: share.Namespace[]
-    ): Promise<blob.Blob[]> {
+    async GetAll(height: number, namespace: share.Namespace[]): Promise<blob.Blob[]> {
         const jsonRequest: any = {
             ...Payload,
             method: "blob.GetAll",
@@ -62,12 +59,34 @@ export class Blob {
     async GetProof(
         height: number,
         namespace: share.Namespace,
-        commitment: blob.Commitment
+        commitment: blob.Commitment,
     ): Promise<blob.Proof> {
         const jsonRequest: any = {
             ...Payload,
             method: "blob.GetProof",
             params: [height, namespace, commitment],
+        };
+
+        // Send the fetch request
+        return await this.client.request(jsonRequest);
+    }
+
+    /**
+     * Retrieves proofs in the given namespaces at the given height by commitment.
+     * @param height - The height at which the proofs exist.
+     * @param namespace - The namespace under which the proof exists.
+     * @param shareCommitment - The commitment of the share.
+     * @returns A Promise resolving to the retrieved commitment proof.
+     */
+    async GetCommitmentProof(
+        height: number,
+        namespace: share.Namespace,
+        shareCommitment: string,
+    ): Promise<blob.CommitmentProof> {
+        const jsonRequest: any = {
+            ...Payload,
+            method: "blob.GetCommitmentProof",
+            params: [height, namespace, shareCommitment],
         };
 
         // Send the fetch request
@@ -86,8 +105,8 @@ export class Blob {
         height: number,
         namespace: share.Namespace,
         proof: blob.Proof,
-        commitment: blob.Commitment
-    ): Promise<blob.Proof> {
+        commitment: blob.Commitment,
+    ): Promise<boolean> {
         const jsonRequest: any = {
             ...Payload,
             method: "blob.Included",
@@ -101,17 +120,14 @@ export class Blob {
     /**
      * Submits Blobs and returns the height in which they were included.
      * @param blobs - The blobs to be submitted.
-     * @param gasPrice - The gas price for the submission.
+     * @param options - The options for submitting the blobs.
      * @returns A Promise resolving to the height in which the blobs were included.
      */
-    async Submit(
-        blobs: blob.Blob[],
-        gasPrice: blob.GasPrice
-    ): Promise<blob.Proof> {
+    async Submit(blobs: blob.Blob[], options: blob.SubmitOptions): Promise<number> {
         const jsonRequest: any = {
             ...Payload,
-            method: "blob.Included",
-            params: [blobs, gasPrice],
+            method: "blob.Submit",
+            params: [blobs, options],
         };
 
         // Send the fetch request
